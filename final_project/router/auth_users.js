@@ -34,6 +34,10 @@ regd_users.post("/login", (req,res) => {
   const username = req.body.username;
   const password = req.body.password;
 
+  console.log(`got body:`)
+  console.log(req.body)
+  console.log(`got credentials: ${username}, ${password}`)
+
     if (!username || !password) {
         return res.status(404).json({ message: "Username or password not provided" });
     }
@@ -55,7 +59,10 @@ regd_users.put("/auth/review/:isbn", (req, res) => {
     const review = req.body.review
     const user = req.user
 
-    books[isbn]["reviews"][user] = review
+    console.log("logged in user: ")
+    console.log(user)
+
+    books[isbn]["reviews"][user.data] = review
 
     return res.status(200).send("Review successfully updated or added");
 });
@@ -64,7 +71,7 @@ regd_users.delete("/auth/review/:isbn", (req, res) => {
     const isbn = req.params.isbn
     const user = req.user
 
-    delete books[isbn]["reviews"][user]
+    delete books[isbn]["reviews"][user.data]
 
     return res.status(200).send("Review successfully deleted");
 })
